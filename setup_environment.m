@@ -42,7 +42,7 @@ Q_L1=reactive(P_L1,pf_L1);  %Reactive Power
 Z_L1=Va_L1^2/(P_L1-1i*Q_L1);
 
 Z_L1=diag([Z_L1 Z_L1 Z_L1]);
-Y_L1=1/Z_L1;
+Y_L1=inv(Z_L1);
 
 %Load L2 Modelling
 Va_L2=Va_S;                   %Line Voltage
@@ -52,7 +52,7 @@ Q_L2=reactive(P_L2,pf_L2);  %Reactive Power
 Z_L2=Va_L2^2/(P_L2-1i*Q_L2);
 
 Z_L2=diag([Z_L2 Z_L2 Z_L2]);
-Y_L2=1/Z_L2;
+Y_L2=inv(Z_L2);
 
 %Load L3 Modelling
 Va_L3=Va_S;                   %Line Voltage
@@ -62,7 +62,7 @@ Q_L3=reactive(P_L3,pf_L3);  %Reactive Power
 Z_L3=Va_L3^2/(P_L3-1i*Q_L3);
 
 Z_L3=diag([Z_L3 Z_L3 Z_L3]);
-Y_L3=1/Z_L3;
+Y_L3=inv(Z_L3);
 
 
 %Fault Modeling
