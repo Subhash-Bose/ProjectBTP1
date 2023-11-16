@@ -17,21 +17,32 @@ Vc=out.Vc_0.signals.values(1,1);
 
 Vs=transpose([Va Vb Vc]);
 
-r=0.4;
-l=0.4e-6;
-xl=2*pi*50*l;
-
-z=diag([r+1j*xl r+1j*xl r+1j*xl]);
-
-Z=z*L;
-Zr=diag([12100 12100 12100]);
-rf=diag([0.0001 0.0001 0.0001]);
 
 Isp=I2-I1;
 
-m=0.8;
+Z_0S=Z_S;
+Z_1S=inv(inv(Z_0S+Z01)+inv(Z_L1));
+Z_1R=inv(inv(Z_L2+Z12)+inv(Z_L1));
+Z_2R=Z_L2;
 
-If=(((1-m)*Z+Zr)*inv((1-m)*Z+Zr+rf))*Isp;
+Z_SR=Z01;      
+Z_R=Z_2R;
 
-m=imag(If'*Vs)/imag(If'*Z*If)
+m=0.5;
+If=Isp;
+% If=(((1-m)*Z_SR+Z_R)*inv((1-m)*Z_SR+Z_R+Rf))*Isp;
+
+
+m=imag(If'*Vs)/imag(If'*Z_SR*If)
+count=0;
+
+% if(m>1)
+%     Vs=Vs-Z01*If;
+%     If=If-inv(Z_L1)*Vs;
+%     Z_SR=Z12;
+%     m=imag(If'*Vs)/imag(If'*Z_SR*If)
+% end
+
+
+
 
