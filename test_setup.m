@@ -74,6 +74,8 @@ Q_L4=reactive(P_L4,pf_L4);
 Z_L4=V_S.*V_S/(P_L4-1i*Q_L4);
 Z_L4=diag([Z_L4 Z_L4 Z_L4]);
 
+
+% Fault Simulation Details
 m_actual=0.4;
 fault=4;
 
