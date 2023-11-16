@@ -24,7 +24,9 @@ r=0.4;
 l=0.4e-6;
 xl=2*pi*50*l;
 
-Rf=diag([0.0001 0.0001 0.0001]);
+rf=10;
+
+Rf=diag([rf rf rf]);
 
 z=diag([r+1j*xl r+1j*xl r+1j*xl]);
 
@@ -36,7 +38,7 @@ Z01=z*l1;
 pf_L1=1;
 P_L1=10e3;
 Q_L1=reactive(P_L1,pf_L1);
-Z_L1=V_S.*V_S/(P_L1-1i*Q_L1);
+Z_L1=V_S.*V_S/(P_L1+1i*Q_L1);
 Z_L1=diag([Z_L1 Z_L1 Z_L1]);
 
 % Line 12
@@ -61,8 +63,24 @@ Q_L3=reactive(P_L3, pf_L3);
 Z_L3=V_S.*V_S/(P_L3-1i*Q_L3);
 Z_L3=diag([Z_L3 Z_L3 Z_L3]);
 
+% Line 34
+l4=15;
+Z34=z*l4;
+
+%Load 4
+pf_L4=1;
+P_L4=5e3;
+Q_L4=reactive(P_L4,pf_L4);
+Z_L4=V_S.*V_S/(P_L4-1i*Q_L4);
+Z_L4=diag([Z_L4 Z_L4 Z_L4]);
 
 m_actual=0.4;
+fault=4;
+
+trigger=[0 0 0 0];
+trigger(fault)=1;
+
+
 
 out=sim("test.slx");
 clc;

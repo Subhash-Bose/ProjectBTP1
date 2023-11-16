@@ -20,28 +20,69 @@ Vs=transpose([Va Vb Vc]);
 
 Isp=I2-I1;
 
-Z_0S=Z_S;
-Z_1S=inv(inv(Z_0S+Z01)+inv(Z_L1));
-Z_1R=inv(inv(Z_L2+Z12)+inv(Z_L1));
-Z_2R=Z_L2;
+Z_4R=Z_L4;
+Z_3R=inv(inv(Z34+Z_4R)+inv(Z_L3));
+Z_2R=inv(inv(Z23+Z_3R)+inv(Z_L2));
+Z_1R=inv(inv(Z12+Z_2R)+inv(Z_L1));
 
-Z_SR=Z01;      
-Z_R=Z_2R;
 
 m=0.5;
-If=Isp;
-% If=(((1-m)*Z_SR+Z_R)*inv((1-m)*Z_SR+Z_R+Rf))*Isp;
+% If=Isp;
+% If=inv((1-m)*Z_SR+Z_R+Rf)*((1-m)*Z_SR+Z_R)*Isp;
 
 
-m=imag(If'*Vs)/imag(If'*Z_SR*If)
-count=0;
+Z_SRR=[Z01 Z12 Z23 Z34];
+Z_SRR=reshape(Z_SRR,[3 3 4]);
+Z_RR=[Z_1R Z_2R Z_3R Z_4R];
+Z_RR=reshape(Z_RR,[3 3 4]);
+Z_L=[Z_L1 Z_L2 Z_L3 Z_L4];
+Z_L=reshape(Z_L,[3 3 4]);
+l=[l1,l2,l3,l4];
 
-% if(m>1)
-%     Vs=Vs-Z01*If;
-%     If=If-inv(Z_L1)*Vs;
-%     Z_SR=Z12;
-%     m=imag(If'*Vs)/imag(If'*Z_SR*If)
-% end
+% Iff=Isp;
+% Z_SR=Z_SRR(:,:,1);
+% Z_R=Z_RR(:,:,1);
+% m=imag(Iff'*Vs)/imag(Iff'*Z_SR*Iff)
+% 
+% Vs=Vs-Z_SR*Isp;
+% Isp=Isp-inv(Z_L(1))*Vs;Iff=Isp;
+% Z_SR=Z_SRR(:,:,2);
+% Z_R=Z_RR(:,:,2);
+% Z_SRR(2)
+% 
+% Z_SR
+% m=imag(Iff'*Vs)/imag(Iff'*Z_SR*Iff)
+% return
+for i=1:4
+    
+    if(i==1 || m>1 )
+        if(i==1)
+            Z_SR=Z_SRR(:,:,i);
+            Z_R=Z_RR(:,:,i);
+        else
+            Vs=Vs-Z_SR*Isp;
+            i
+            
+            Isp=Isp-inv(Z_L(:,:,i-1))*Vs;
+            
+            
+            Z_SR=Z_SRR(:,:,i);
+            Z_R=Z_RR(:,:,i);
+        end
+        for j=1:10
+
+            Iff=inv((1-m)*Z_SR+Z_R)*((1-m)*Z_SR+Z_R+Rf)*Isp;
+            % Iff=Isp;
+            m=imag(Iff'*Vs)/imag(Iff'*Z_SR*Iff)
+        end
+    end
+    if(m<1)
+        disp("Fault Has Occured in Line "+(i-1)+"-"+i+" at a distance of "+(m*l(i)));
+        disp("Calculated Value of m is "+m);
+        break;
+    end
+end
+
 
 
 
