@@ -35,10 +35,12 @@ l1=3;
 Z01=z*l1;
 
 % Load 1
-pf_L1=1;
-P_L1=10e3;
+pf_L1=0.2;
+P_L1=20e3;
 Q_L1=reactive(P_L1,pf_L1);
-Z_L1=V_S.*V_S/(P_L1+1i*Q_L1);
+Z_L1=3*V_S.*V_S/(P_L1+1i*Q_L1);
+r_L1=real(Z_L1);
+l_L1=imag(Z_L1)/(2*pi*f);
 Z_L1=diag([Z_L1 Z_L1 Z_L1]);
 
 % Line 12
@@ -76,8 +78,8 @@ Z_L4=diag([Z_L4 Z_L4 Z_L4]);
 
 
 % Fault Simulation Details
-m_actual=0.4;
-fault=4;
+m_actual=0.5;
+fault=1;
 
 trigger=[0 0 0 0];
 trigger(fault)=1;
