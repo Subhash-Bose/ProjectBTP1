@@ -84,8 +84,8 @@ Z_L4=diag([Z_L4 Z_L4 Z_L4]);
 
 
 % Fault Simulation Details
-m_actual=0.2;
-fault=4;
+m_actual=0.8;
+fault=3;
 
 trigger=[0 0 0 0];
 trigger(fault)=1;
