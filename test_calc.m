@@ -1,4 +1,4 @@
-clc;
+% clc;
 Ia1=out.Ia_0.signals.values(26,1);
 Ib1=out.Ib_0.signals.values(26,1);
 Ic1=out.Ic_0.signals.values(26,1);
@@ -34,36 +34,8 @@ Z_3R=inv(inv(Z34+Z_4R)+inv(Z_L3));
 Z_2R=inv(inv(Z23+Z_3R)+inv(Z_L2));
 Z_1R=inv(inv(Z12+Z_2R)+inv(Z_L1));
 
-
+m_array=[0 0 0 0];
 m=0.5;
-
-% Z_SR=Z12;
-% Z_4R=Z_L4;
-% Z_3R=inv(inv(Z34+Z_4R)+inv(Z_L3));
-% Z_2R=inv(inv(Z23+Z_3R)+inv(Z_L2));
-% Z_R=Z_2R;
-% 
-% Vs=Vs-Z01*I2;
-% I2=I2-inv(Z_L1)*Vs;
-% 
-% Iff=((1-m)*Z_SR+Z_R)*inv((1-m)*Z_SR+Z_R+Rf)*I2;
-% m=imag(Iff'*Vs)/imag(Iff'*Z_SR*I2)
-% return;
-%Check for fault in 2-3
-% Z_SR=Z23;
-% Z_4R=Z_L4;
-% Z_3R=inv(inv(Z34+Z_4R)+inv(Z_L3));
-% Z_R=Z_3R;
-% Vs=Vs-Z01*I2;
-% I2=I2-inv(Z_L1)*Vs;
-% 
-% Vs=Vs-Z12*I2;
-% I2=I2-inv(Z_L2)*Vs;
-% 
-% 
-% Iff=((1-m)*Z_SR+Z_R)*inv((1-m)*Z_SR+Z_R+Rf)*I2;
-% m=imag(Iff'*Vs)/imag(Iff'*Z_SR*I2)
-% return;
 
 Z_SRR=[Z01 Z12 Z23 Z34];
 Z_SRR=reshape(Z_SRR,[3 3 4]);
@@ -75,7 +47,7 @@ len=[l1,l2,l3,l4];
 
 for i=1:4
     
-    if(i==1 || m>1 || m<0 )
+    if(1)
         if(i==1)
             Z_SR=Z_SRR(:,:,i);
             Z_R=Z_RR(:,:,i);
@@ -89,10 +61,7 @@ for i=1:4
             Z_SR=Z_SRR(:,:,i);
             Z_R=Z_RR(:,:,i);
         end
-        % i
-        % Z_SR
-        % Z_R
-        % I2
+
         for j=1:10
             
             Iff=((1-m)*Z_SR+Z_R)*inv((1-m)*Z_SR+Z_R+Rf)*I2;
@@ -101,10 +70,11 @@ for i=1:4
         end
         
     end
+    m_array(i)=m;
     if(m<1&& m>0)
         disp("Fault Has Occured in Line "+(i-1)+"-"+i+" at a distance of "+(m*len(i)));
         disp("Calculated Value of m is "+m);
-        break;
+        % break;
     end
 end
 

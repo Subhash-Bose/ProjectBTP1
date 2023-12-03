@@ -1,4 +1,4 @@
-clear all;
+
 
 % r=[[0.4 0 0];[0 0.4 0];[0 0 0.4]];
 % l=[[1.5 0 0]; [0 1.5 0];[0 0 1.5]];
@@ -57,7 +57,7 @@ l_L2=imag(Z_L2)/(2*pi*f);
 Z_L2=diag([Z_L2 Z_L2 Z_L2]);
 
 % Line 23
-l3=8;
+l3=6;
 Z23=z*l3;
 
 % Load 3
@@ -70,12 +70,12 @@ l_L3=imag(Z_L3)/(2*pi*f);
 Z_L3=diag([Z_L3 Z_L3 Z_L3]);
 
 % Line 34
-l4=15;
+l4=4;
 Z34=z*l4;
 
 %Load 4
-pf_L4=0.75;
-P_L4=200e3;
+pf_L4=0.85;
+P_L4=100e3;
 Q_L4=reactive(P_L4,pf_L4);
 Z_L4=3*V_S.*V_S/(P_L4-1i*Q_L4);
 r_L4=real(Z_L4);
@@ -84,8 +84,8 @@ Z_L4=diag([Z_L4 Z_L4 Z_L4]);
 
 
 % Fault Simulation Details
-m_actual=0.8;
-fault=3;
+% m_actual=0.8;
+% fault=3;
 
 trigger=[0 0 0 0];
 trigger(fault)=1;
@@ -93,5 +93,5 @@ trigger(fault)=1;
 
 
 out=sim("test.slx");
-clc;
+% clc;
 run("test_calc.m");
